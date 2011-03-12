@@ -22,6 +22,7 @@ module Lyndon
     def url=(url)
       url = url.kind_of?(String) ? NSURL.alloc.initWithString(url) : url
       @webView.mainFrame.loadRequest(NSURLRequest.requestWithURL(url))
+      NSApplication.sharedApplication.run
     end
     alias_method :navigate, :url=
 
