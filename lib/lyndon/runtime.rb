@@ -2,16 +2,28 @@
 
 module Lyndon
   class Runtime
-    def initialize(dom = nil)
+    def initialize(options = {})
       @webView = WebView.new
       @webView.setFrameLoadDelegate(Delegate.new)
 
       @scripter = @webView.windowScriptObject
-      @scripter.setValue(Ruby.new, forKey:"Ruby")
+      
+      unless options[:sandbox]
+        @scripter.setValue(Ruby.new, forKey:"Ruby")
+      end
 
-      load_dom(dom) if dom
-      eval_file File.dirname(__FILE__) + '/../js/lyndon'
+      load_dom(options[:dom]) if options[:dom]
+      
+      unless options[:sandbox]
+        eval_file File.dirname(__FILE__) + '/../js/lyndon'
+      end
     end
+    
+    def url=(url)
+      url = url.kind_of?(String) ? NSURL.alloc.initWithString(url) : url
+      @webView.mainFrame.loadRequest(NSURLRequest.requestWithURL(url))
+    end
+    alias_method :navigate, :url=
 
     def eval(js)
       @scripter.evaluateWebScript(js)

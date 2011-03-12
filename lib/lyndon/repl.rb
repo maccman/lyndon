@@ -9,7 +9,7 @@ module Lyndon
 
     def self.start(dom = nil)
       load_history
-      @parser = Lyndon::Runtime.new(dom)
+      @parser = Lyndon::Runtime.new(:dom => dom)
 
       loop do
         input = Readline.readline(Prompt)

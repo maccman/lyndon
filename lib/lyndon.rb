@@ -24,6 +24,10 @@ module Lyndon
   end
 
   def self.parse(html)
-    Lyndon::Runtime.new(html).to_s
+    Lyndon::Runtime.new(:dom => html).to_s
+  end
+  
+  def self.navigate(url)
+    Runtime.new.navigate(url)
   end
 end
