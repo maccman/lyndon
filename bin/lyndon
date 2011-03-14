@@ -17,17 +17,23 @@ when '-h', '--help'
   puts "Run it:"
   puts " $ lyndon -e '(string to eval)'"
   puts " $ lyndon -p '(string to eval; result will puts)'"
-  puts " $ lyndon -n '(http address; result will puts)'"
+  puts " $ lyndon -o '(http address/path; result will puts)'"
   puts " $ lyndon file.js"
   puts " $ lyndon file.html"
   puts " $ cat file.html | lyndon"
+  puts " $ lyndon --jasmine '(http address/path to jasmine tests)'"
+  puts " $ lyndon --qunit '(http address/path to qunit tests)'"
   puts " $ lyndon"
 when '-e'
   Lyndon.eval(ARGV.last)
 when '-p'
   puts Lyndon.eval(ARGV.last)
-when '-n'
-  puts Lyndon.navigate(ARGV.last)
+when '-o'
+  puts Lyndon.open(ARGV.last)
+when '--jasmine'
+  puts Lyndon::Tests.jasmine(ARGV.last)
+when '--qunit'
+  puts Lyndon::Tests.qunit(ARGV.last)
 when nil
   Lyndon::Repl.start
 else

@@ -10,10 +10,15 @@ framework 'WebKit'
 
 require 'lyndon/runtime'
 require 'lyndon/coercion'
-require 'lyndon/ruby'
-require 'lyndon/delegate'
+require 'lyndon/script_object/ruby'
+require 'lyndon/script_object/lyndon'
+require 'lyndon/delegate/ui'
+require 'lyndon/delegate/load'
+require 'lyndon/tests'
 
 module Lyndon
+  JS_PATH = File.join(File.dirname(__FILE__), "js")
+  
   def self.eval(js)
     Runtime.new.eval(js)
   end
@@ -27,7 +32,7 @@ module Lyndon
     Runtime.new(:dom => dom).to_s
   end
   
-  def self.navigate(url)
-    Runtime.new.navigate(url)
+  def self.open(url)
+    Runtime.new.open(url)
   end
 end
