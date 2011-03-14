@@ -1,10 +1,8 @@
-Lyndon
-======
+#Lyndon
 
 Lyndon is like [Johnson](http://github.com/jbarnette/johnson). But for MacRuby. And with JavaScriptCore.
 
-Here It Goes
-------------
+##Here It Goes
 
     $ rip install git://github.com/defunkt/lyndon.git
     Successfully installed lyndon (41548d2)
@@ -25,8 +23,7 @@ Here It Goes
 
 Stuff like that.
 
-Oh, the DOM
------------
+##Oh, the DOM
 
     $ lyndon test.html 
     js> Lyndon.require('jquery.min.js')
@@ -41,9 +38,7 @@ Oh, the DOM
     js> document.body.innerHTML
     => "\n    <h1 id=\"hi\">Hi.</h1>\n  \n\n"
 
-
-HTML with JavaScript
---------------------
+##HTML with JavaScript
 
     $ cat examples/index.html | lyndon
     <html><head>
@@ -58,11 +53,17 @@ in `examples/index.html` - it's added at runtime by
 JavaScript. JavaScript that strips itself out and changes the
 `<title`>. 
 
-Seriously.
+__Seriously.__
 
+##Navigate to URLs
 
-With Ruby
----------
+    $ macirb
+    >> require 'lyndon'
+    
+    runtime = Lyndon.navigate('http://google.com')
+    runtime.eval('document.title')
+
+##With Ruby
 
 If you want:
 
@@ -78,6 +79,6 @@ If you want:
     >> r.eval('name')
     => "chris"
     
-That's basically it.
+*That's basically it.*
 
 Chris Wanstrath // chris@ozmm.org

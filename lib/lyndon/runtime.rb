@@ -2,8 +2,13 @@
 
 module Lyndon
   class Runtime
+    attr_reader :webView, :scripter
+    
     def initialize(options = {})
       @webView = WebView.new
+      
+      @webView.setPreferences(WebPreferences.standardPreferences)
+      
       @webView.setFrameLoadDelegate(Delegate.new)
 
       @scripter = @webView.windowScriptObject
@@ -19,12 +24,12 @@ module Lyndon
       end
     end
     
-    def url=(url)
+    def navigate(url)
       url = url.kind_of?(String) ? NSURL.alloc.initWithString(url) : url
       @webView.mainFrame.loadRequest(NSURLRequest.requestWithURL(url))
-      NSApplication.sharedApplication.run
+      run
     end
-    alias_method :navigate, :url=
+    alias_method :url=, :navigate
 
     def eval(js)
       @scripter.evaluateWebScript(js)
@@ -41,7 +46,7 @@ module Lyndon
     def load_dom(dom, base_url = nil)
       @dom = File.exists?(dom) ? File.read(dom) : dom
       @webView.mainFrame.loadHTMLString(@dom, baseURL:base_url)
-      NSApplication.sharedApplication.run
+      run
     end
 
     def to_s
@@ -49,7 +54,14 @@ module Lyndon
     end
 
     def html_source
-      '<html>'+eval("document.documentElement.innerHTML")+'</html>'
+      eval("document.documentElement.outerHTML")
     end
+    
+    protected
+      def run
+        unless NSApplication.sharedApplication.running?
+          NSApplication.sharedApplication.run
+        end
+      end
   end
 end

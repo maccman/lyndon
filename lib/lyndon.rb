@@ -23,8 +23,8 @@ module Lyndon
     eval(contents)
   end
 
-  def self.parse(html)
-    Lyndon::Runtime.new(:dom => html).to_s
+  def self.parse(dom)
+    Runtime.new(:dom => dom).to_s
   end
   
   def self.navigate(url)
